@@ -5,6 +5,7 @@ import Navbar from './components/layout/navbar';
 import Users from './components/users/users';
 
 import './app.css';
+import Search from './components/users/search';
 
 class App extends Component {
 
@@ -31,6 +32,7 @@ class App extends Component {
 			<div className='app'>
 				<Navbar/>
 				<div className='container'>
+					<Search/>
 					<Users loading={loading} users={users}/>
 				</div>
 			</div>
