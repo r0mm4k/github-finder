@@ -6,16 +6,24 @@ import Users from './components/users/users';
 
 import './app.css';
 import Search from './components/users/search';
+import Alert from './components/layout/alert';
 
 class App extends Component {
 
 	state = {
 		users: [],
-		loading: false
+		loading: false,
+		alert: null
 	};
 
 	//Clear Users from state
 	clearUsers = () => this.setState({users: [], loading: false});
+
+	//Set alert
+	setAlert = (msg, type) => {
+		this.setState({alert: {msg, type}});
+		setTimeout(() => this.setState({alert: null}), 5000);
+	};
 
 	//Search GitHub Users
 	searchUsers = async (text) => {
@@ -40,13 +48,15 @@ class App extends Component {
 
 	render() {
 
-		const {users, loading} = this.state;
+		const {users, loading, alert} = this.state;
 
 		return (
 			<div className='app'>
 				<Navbar/>
 				<div className='container'>
-					<Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClear={!!users.length}/>
+					<Alert alert={alert}/>
+					<Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClear={!!users.length}
+									setAlert={this.setAlert}/>
 					<Users loading={loading} users={users}/>
 				</div>
 			</div>
