@@ -20,8 +20,8 @@ const GithubState = (props) => {
 		client_id = process.env.REACT_APP_GITHUB_CLIENT_ID;
 		client_secret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
 	} else {
-		client_id = process.env.GITHUB_CLIENT_ID;
-		client_secret = process.env.GITHUB_CLIENT_SECRET;
+		client_id = process.env.REACT_APP_CLIENT_ID;
+		client_secret = process.env.REACT_APP_CLIENT_SECRET;
 	}
 
 	const [state, dispatch] = useReducer(githubReducer, initialState);
