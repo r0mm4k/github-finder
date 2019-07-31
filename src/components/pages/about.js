@@ -1,15 +1,6 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 
-import Spinner from '../layout/spinner';
-
-const About = ({loading}) => {
-
-
-	if (loading) {
-		return <Spinner/>;
-	}
-
+const About = () => {
 	return (
 		<Fragment>
 			<h1>About this App:</h1>
@@ -17,10 +8,6 @@ const About = ({loading}) => {
 			<p>- Version: 1.0.0</p>
 		</Fragment>
 	);
-};
-
-About.propTypes = {
-	loading: PropTypes.bool.isRequired
 };
 
 export default About;
