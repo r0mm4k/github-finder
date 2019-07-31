@@ -13,8 +13,16 @@ const GithubState = (props) => {
 		loading: false
 	};
 
-	const client_id = process.env.REACT_APP_GITHUB_CLIENT_ID;
-	const client_secret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
+	let client_id;
+	let client_secret;
+
+	if (process.env.NODE_ENV !== 'production') {
+		client_id = process.env.REACT_APP_GITHUB_CLIENT_ID;
+		client_secret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
+	} else {
+		client_id = process.env.GITHUB_CLIENT_ID;
+		client_secret = process.env.GITHUB_CLIENT_SECRET;
+	}
 
 	const [state, dispatch] = useReducer(githubReducer, initialState);
 
