@@ -4,16 +4,20 @@ import * as axios from 'axios';
 
 import Navbar from './components/layout/navbar';
 import Users from './components/users/users';
-
-import './app.css';
+import User from './components/users/user';
 import Search from './components/users/search';
 import Alert from './components/layout/alert';
 import About from './components/pages/about';
 
+import './app.css';
+
 class App extends Component {
+	client_id = process.env.REACT_APP_GITHUB_CLIENT_ID;
+	client_secret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
 
 	state = {
 		users: [],
+		user: {},
 		loading: false,
 		alert: null
 	};
@@ -29,44 +33,48 @@ class App extends Component {
 
 	//Search GitHub Users
 	searchUsers = async (text) => {
-		const client_id = process.env.REACT_APP_GITHUB_CLIENT_ID;
-		const client_secret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
-
 		this.setState({loading: true});
 		const res = await axios
-			.get(`https://api.github.com/search/users?q=${text}&client_id=${client_id}&client_secret=${client_secret}`);
+			.get(`https://api.github.com/search/users?q=${text}&client_id=${this.client_id}&client_secret=${this.client_secret}`);
 		res.status === 200 && this.setState({users: res.data.items, loading: false});
 	};
 
-	async componentDidMount() {
-		const client_id = process.env.REACT_APP_GITHUB_CLIENT_ID;
-		const client_secret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
-
+	//Get single GitHub User
+	getUser = async (username) => {
 		this.setState({loading: true});
 		const res = await axios
-			.get(`https://api.github.com/users?client_id=${client_id}&client_secret=${client_secret}`);
+			.get(`https://api.github.com/users/${username}?client_id=${this.client_id}&client_secret=${this.client_secret}`);
+		res.status === 200 && this.setState({user: res.data, loading: false});
+	};
+
+	async componentDidMount() {
+		this.setState({loading: true});
+		const res = await axios
+			.get(`https://api.github.com/users?client_id=${this.client_id}&client_secret=${this.client_secret}`);
 		res.status === 200 && this.setState({users: res.data, loading: false});
 	}
 
 	render() {
 
-		const {users, loading, alert} = this.state;
+		const {users, user, loading, alert} = this.state;
 
 		return (
 			<Router>
 				<div className='app'>
 					<Navbar/>
 					<div className='container'>
-						<Alert alert={alert}/>
 						<Switch>
 							<Route exact path='/' render={() => (
 								<Fragment>
+									<Alert alert={alert}/>
 									<Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClear={!!users.length}
 													setAlert={this.setAlert}/>
 									<Users loading={loading} users={users}/>
 								</Fragment>
 							)}/>
 							<Route exact path='/about' render={() => <About/>}/>
+							<Route exact path='/user/:login' render={(props) => <User {...props} user={user} loading={loading}
+																																				getUser={this.getUser}/>}/>
 						</Switch>
 					</div>
 				</div>
