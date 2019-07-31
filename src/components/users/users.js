@@ -5,6 +5,7 @@ import UserItem from './user-item';
 import Spinner from '../layout/spinner';
 
 const Users = ({users, loading}) => {
+
 	const usersElement = users.map(({id, ...user}) => <UserItem key={id} {...user}/>);
 
 	if (loading) {
@@ -19,7 +20,8 @@ const Users = ({users, loading}) => {
 };
 
 Users.defaultProps = {
-	users: []
+	users: [],
+	loading: false
 };
 
 Users.propTypes = {
