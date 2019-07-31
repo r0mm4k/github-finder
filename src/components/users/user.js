@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Spinner from '../layout/spinner';
 import Repos from '../repos/repos';
 
-const User = ({user, getUser, getUsersRepos, match, loading, repos}) => {
+const User = ({user, getUser, getUserRepos, match, loading, repos}) => {
 
 	const {
 		name, avatar_url, location, bio, blog, login, html_url, followers, following, public_repos,
@@ -14,7 +14,7 @@ const User = ({user, getUser, getUsersRepos, match, loading, repos}) => {
 
 	useEffect(() => {
 		getUser(match.params.login);
-		getUsersRepos(match.params.login);
+		getUserRepos(match.params.login);
 		//eslint-disable-next-line
 	}, []);
 
@@ -65,7 +65,7 @@ User.propTypes = {
 	loading: PropTypes.bool.isRequired,
 	user: PropTypes.object.isRequired,
 	getUser: PropTypes.func.isRequired,
-	getUsersRepos: PropTypes.func.isRequired,
+	getUserRepos: PropTypes.func.isRequired,
 	repos: PropTypes.array.isRequired
 };
 
